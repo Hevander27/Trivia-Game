@@ -23,15 +23,22 @@ class NetworkManager {
     private init() {}
     
     // amount, category, difficult, type
-    func getQuestions(amount: Int, difficultyText: String, selectedAmountString: String, selectedType: String) async throws -> TriviaResponse {
+    func getQuestions(amount: Int, difficultyText: String, selectedCategoryId: Int, selectedType: String) async throws -> TriviaResponse {
         var urlComps = URLComponents(string: baseURL)!
         
-        let queryItems = [
+        var queryItems = [
             URLQueryItem(name: "amount", value: "\(amount)"), // question count
-            URLQueryItem(name: "category", value: "\(selectedAmountString)"), //category
             URLQueryItem(name: "difficulty", value: "\(difficultyText)"),
             URLQueryItem(name: "type", value: "\(selectedType)")
         ]
+        
+        if selectedCategoryId != -1 {
+            queryItems.append(
+                URLQueryItem(name: "category", value: "\(selectedCategoryId)") //category
+            )
+        }
+        
+        
         
         urlComps.queryItems = queryItems
         
@@ -40,7 +47,7 @@ class NetworkManager {
             fatalError("Missing URL")
         }
         
-        print(url)
+        print("\n\nURL: \(url)\n\n")
         
         let urlRequest = URLRequest(url: url)
         let (data, response) = try await URLSession.shared.data(for: urlRequest)

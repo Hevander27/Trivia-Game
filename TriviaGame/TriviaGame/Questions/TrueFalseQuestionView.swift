@@ -10,52 +10,70 @@ import SwiftUI
 
 struct TrueFalseQuestionView: View {
     
-    @State private var userAnswer: Int?
+    @State private var userAnswer: String?
     
     let question: String
+    let correctAnswer: Bool
+    let isCorrectHandler: (Bool) -> Void
+    
+    init(userAnswer: String? = nil, question: String, correctAnswer: Bool, isCorrectHandler: @escaping (Bool) -> Void) {
+        self.userAnswer = userAnswer
+        self.question = question
+        self.correctAnswer = correctAnswer
+        self.isCorrectHandler = isCorrectHandler
+    }
     
     var body: some View {
         VStack {
             Text("\(question)")
             
-            // Loop through the answer choices
-            // For each answer choice (you need the index and the answer choice)
-            // Create a button component
-            // inside the action
-            // if the button is clicked, then set the state variable = index
-            //
-            
-            Button {
-                Task {
-                    try await NetworkManager.shared.getCategories()
+            Button(action: {
+                userAnswer = "true"
+                isCorrectHandler(isCorrectAnswer())
+
+            }) {
+                HStack {
+                    Text("A. True")
+                    Spacer()
+                    if userAnswer == "true" {
+                        Image(systemName: "checkmark")
+                            .foregroundColor(.green)
+                    }
                 }
-            } label: {
-                Text("A. True")
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(width: 300)
-                    .background(Color.green)
-                    .cornerRadius(10)
+                .foregroundColor(.black)
+                .padding()
+                .frame(width: 300)
+                .background(Color(UIColor.systemGray5))
+                .cornerRadius(10)
             }
             
-            Button {
-                Task {
-                    try await NetworkManager.shared.getCategories()
+            Button(action: {
+                userAnswer = "false"
+                isCorrectHandler(isCorrectAnswer())
+            }) {
+                HStack {
+                    Text("B. False")
+                    Spacer()
+                    if userAnswer == "false" {
+                        Image(systemName: "checkmark")
+                            .foregroundColor(.green)
+                    }
                 }
-            } label: {
-                Text("B. False")
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(width: 300)
-                    .background(Color.green)
-                    .cornerRadius(10)
+                .foregroundColor(.black)
+                .padding()
+                .frame(width: 300)
+                .background(Color(UIColor.systemGray5))
+                .cornerRadius(10)
             }
             
           
         }
         .padding()
         .cornerRadius(5)
-        .background(.red)
+        .background(.white)
         
+    }
+    func isCorrectAnswer() -> Bool {
+        return userAnswer == (correctAnswer ? "true": "false")
     }
 }

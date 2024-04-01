@@ -32,7 +32,9 @@ The following **additional** features are implemented:
 - [] List anything else that you can get done to improve the app functionality!
 
 ## Video Walkthrough
-https://imgur.com/a/RNkFf66
+<blockquote class="imgur-embed-pub" lang="en" data-id="rWyED2m">
+<a href="https://imgur.com/rWyED2m">View post on imgur.com</a>
+</blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
 
 
